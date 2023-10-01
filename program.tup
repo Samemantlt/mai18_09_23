@@ -1,0 +1,35 @@
+#CONTEXT start
+0, ,<,sum_0
+#ENDCONTEXT
+
+#CONTEXT sum
+#VAR x 0123456789
+#VAR current 0123456789
+sum_${x},${current},<,sum_${(int(x) + int(current)) % 10 + (int(x) + int(current)) // 10}
+#ENDCONTEXT
+
+#CONTEXT sum_to_finish
+#VAR x 0123456789
+sum_${x}, ,>,go_print_${1 if x in '0369' else 0}
+#ENDCONTEXT
+
+#CONTEXT go_print
+#VAR x 01
+#VAR current 0123456789
+go_print_${x},${current},>,go_print_${x}
+#ENDCONTEXT
+
+#CONTEXT go_print_on_space
+#VAR x 01
+go_print_${x}, ,>,print_${x}
+#ENDCONTEXT
+
+#CONTEXT print_and_finish
+print_1, ,1,finish
+print_0, ,0,finish
+
+finish,1,>,finish
+finish,0,>,finish
+
+finish, ,#,finish
+#ENDCONTEXT
